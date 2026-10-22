@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bunal Nok</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    background: #f6f7fb;
+    color: #1f2937;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 24px 16px;
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    overflow-y: auto;
+}
+
+.logo {
+    padding: 4px 10px 22px;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.logo p {
+    margin: 5px 0 0;
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+/* Navigation */
+
+.nav-title {
+    padding: 0 10px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+    font-weight: 700;
+    color: #9ca3af;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nav button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    padding: 10px 11px;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: transparent;
+    color: #4b5563;
+
+    font-size: 14px;
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: .15s;
+}
+
+.nav button:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.nav button.active {
+    background: #eef2ff;
+    color: #4f46e5;
+    font-weight: 700;
+}
+
+.nav-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-count {
+    flex-shrink: 0;
+    min-width: 25px;
+    padding: 2px 6px;
+    border-radius: 20px;
+
+    background: #f3f4f6;
+    color: #9ca3af;
+
+    font-size: 11px;
+    text-align: center;
+}
+
+.nav button.active .nav-count {
+    background: #e0e7ff;
+    color: #4f46e5;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    flex: 1;
+    min-width: 0;
+}
+
+.container {
+    width: min(100% - 40px, 1050px);
+    margin: auto;
+    padding: 34px 0 80px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    margin-bottom: 24px;
+}
+
+header h2 {
+    margin: 0;
+    font-size: 30px;
+    letter-spacing: -.5px;
+}
+
+header p {
+    margin: 7px 0 0;
+    color: #6b7280;
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.toolbar {
+    position: sticky;
+    top: 15px;
+    z-index: 20;
+    margin-bottom: 32px;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search {
+    width: 100%;
+    padding: 14px 17px 14px 43px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 13px;
+
+    background: rgba(255,255,255,.96);
+
+    font-size: 16px;
+    outline: none;
+
+    box-shadow: 0 5px 20px #0000000b;
+}
+
+.search:focus {
+    border-color: #6366f1;
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.search-count {
+    margin-top: 7px;
+    padding-left: 4px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* =========================
+   CATEGORY
+========================= */
+
+.category {
+    scroll-margin-top: 90px;
+    margin-bottom: 42px;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    margin-bottom: 14px;
+}
+
+.category-header h2 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.category-count {
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(290px, 1fr)
+    );
+    gap: 13px;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+    padding: 18px;
+
+    transition: .15s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px #0000000b;
+}
+
+.card h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+
+    color: #6366f1;
+
+    margin: 0 0 10px;
+}
+
+.card p {
+    margin: 0;
+
+    white-space: pre-line;
+
+    line-height: 1.55;
+    font-size: 16px;
+}
+
+/* =========================
+   COPY
+========================= */
+
+.copy {
+    margin-top: 14px;
+
+    border: 0;
+    background: #f3f4f6;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .15s;
+}
+
+.copy:hover {
+    background: #e5e7eb;
+}
+
+.copy.copied {
+    background: #dcfce7;
+    color: #166534;
+}
+
+/* =========================
+   EMPTY / ERROR
+========================= */
+
+.empty,
+.error {
+    text-align: center;
+    padding: 50px 20px;
+    color: #9ca3af;
+}
+
+.error {
+    color: #b91c1c;
+}
+
+/* =========================
+   BACK TO TOP
+========================= */
+
+.top-button {
+    position: fixed;
+
+    right: 22px;
+    bottom: 22px;
+
+    width: 42px;
+    height: 42px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: #111827;
+    color: white;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transform: translateY(10px);
+
+    transition: .2s;
+
+    box-shadow: 0 5px 20px #0003;
+
+    z-index: 30;
+}
+
+.top-button.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+
+    bottom: 22px;
+    left: 50%;
+
+    transform:
+        translate(-50%, 20px);
+
+    background: #111827;
+    color: white;
+
+    padding: 10px 15px;
+
+    border-radius: 9px;
+
+    opacity: 0;
+
+    transition: .2s;
+
+    z-index: 100;
+}
+
+.toast.show {
+    opacity: 1;
+    transform:
+        translate(-50%, 0);
+}
+
+/* =========================
+   MOBILE NAV
+========================= */
+
+.mobile-nav {
+    display: none;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 25;
+
+    background: rgba(255,255,255,.96);
+
+    border-bottom: 1px solid #e5e7eb;
+
+    padding: 10px;
+
+    overflow-x: auto;
+}
+
+.mobile-nav-inner {
+    display: flex;
+    gap: 7px;
+    width: max-content;
+}
+
+.mobile-nav button {
+    border: 1px solid #e5e7eb;
+
+    background: #fff;
+
+    padding: 8px 12px;
+
+    border-radius: 20px;
+
+    color: #4b5563;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+.mobile-nav button.active {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+    color: #4f46e5;
+    font-weight: 700;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: block;
+    }
+
+    .container {
+        width: min(100% - 20px, 1050px);
+        padding-top: 24px;
+    }
+
+    header h2 {
+        font-size: 26px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .toolbar {
+        top: 65px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .container {
+        width: calc(100% - 16px);
+    }
+
+    header h2 {
+        font-size: 24px;
+    }
+
+    .search {
+        font-size: 15px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =====================
+         DESKTOP SIDEBAR
+    ====================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h1>💬 Conversation Lines</h1>
+            <p>Personal conversation reference</p>
+        </div>
+
+        <div class="nav-title">
+            Categories
+        </div>
+
+        <nav id="desktopNav" class="nav"></nav>
+
+    </aside>
+
+
+    <!-- =====================
+         MAIN
+    ====================== -->
+
+    <div class="main">
+
+        <!-- MOBILE CATEGORY NAV -->
+
+        <div class="mobile-nav">
+            <div
+                id="mobileNav"
+                class="mobile-nav-inner">
+            </div>
+        </div>
+
+
+        <div class="container">
+
+            <header>
+                <h2>Conversation Lines</h2>
+
+                <p>
+                    Pick a category, find a line, and copy it.
+                </p>
+            </header>
+
+
+            <!-- SEARCH -->
+
+            <div class="toolbar">
+
+                <div class="search-wrapper">
+
+                    <span class="search-icon">
+                        🔎
+                    </span>
+
+                    <input
+                        id="search"
+                        class="search"
+                        type="search"
+                        placeholder="Search lines, names, questions..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+                <div
+                    id="searchCount"
+                    class="search-count">
+                </div>
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <main id="content">
+
+                <div class="empty">
+                    Loading your Markdown files...
+                </div>
+
+            </main>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- BACK TO TOP -->
+
+<button
+    id="topButton"
+    class="top-button"
+    title="Back to top">
+    ↑
+</button>
+
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast">
+    Copied!
+</div>
+
+
+<script>
+
+/* =====================================================
+   MARKDOWN FILES
+
+   Add/remove categories here.
+
+   The Markdown files themselves contain the content.
+===================================================== */
+
+const files = [
+    // "name-lines.md",
+    "openers.md",
+    // "getting-to-know.md",
+    "playful-questions.md",
+    "flirting.md",
+    // "situational.md"
+];
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const content =
+    document.getElementById("content");
+
+const search =
+    document.getElementById("search");
+
+const desktopNav =
+    document.getElementById("desktopNav");
+
+const mobileNav =
+    document.getElementById("mobileNav");
+
+const searchCount =
+    document.getElementById("searchCount");
+
+const topButton =
+    document.getElementById("topButton");
+
+
+let sections = [];
+let allCards = [];
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function escapeHtml(s) {
+
+    return s.replace(
+        /[&<>'"]/g,
+
+        c => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            "'": "&#39;",
+            '"': "&quot;"
+        }[c])
+    );
+}
+
+
+/* =====================================================
+   PARSE MARKDOWN
+===================================================== */
+
+function parseMarkdown(md, file) {
+
+    const lines =
+        md.replace(/\r/g, "").split("\n");
+
+    let title =
+        file
+            .replace(".md", "")
+            .replace(/-/g, " ");
+
+    let cards = [];
+
+    let current = null;
+
+
+    for (const raw of lines) {
+
+        const line = raw.trim();
+
+
+        /*
+         # Category Title
+        */
+
+        if (line.startsWith("# ")) {
+
+            title =
+                line
+                    .slice(2)
+                    .trim();
+
+        }
+
+
+        /*
+         ## Entry
+        */
+
+        else if (line.startsWith("## ")) {
+
+            if (current) {
+                cards.push(current);
+            }
+
+            current = {
+
+                label:
+                    line
+                        .slice(3)
+                        .trim(),
+
+                text: []
+
+            };
+
+        }
+
+
+        /*
+         > Quote
+        */
+
+        else if (line.startsWith("> ")) {
+
+            if (!current) {
+
+                current = {
+
+                    label: "Line",
+
+                    text: []
+
+                };
+
+            }
+
+            current.text.push(
+                line.slice(2)
+            );
+
+        }
+
+
+        /*
+         - Question
+        */
+
+        else if (line.startsWith("- ")) {
+
+            if (!current) {
+
+                current = {
+
+                    label: "Question",
+
+                    text: []
+
+                };
+
+            }
+
+            current.text.push(
+                "• " + line.slice(2)
+            );
+
+        }
+
+
+        /*
+         Empty line
+        */
+
+        else if (
+            line === "" &&
+            current &&
+            current.text.length &&
+            current.text.at(-1) !== ""
+        ) {
+
+            current.text.push("");
+
+        }
+
+    }
+
+
+    if (current) {
+        cards.push(current);
+    }
+
+
+    return {
+        title,
+        cards
+    };
+}
+
+
+/* =====================================================
+   LOAD MARKDOWN
+===================================================== */
+
+async function load() {
+
+    sections = [];
+
+    for (const file of files) {
+
+        try {
+
+            const response =
+                await fetch(file);
+
+            if (!response.ok) {
+                throw new Error(
+                    `Could not load ${file}`
+                );
+            }
+
+            const md =
+                await response.text();
+
+            sections.push(
+                parseMarkdown(md, file)
+            );
+
+        }
+
+        catch (error) {
+
+            console.warn(
+                `Skipping ${file}`,
+                error
+            );
+
+        }
+
+    }
+
+
+    if (!sections.length) {
+
+        content.innerHTML = `
+            <div class="error">
+                <strong>No Markdown files found.</strong>
+                <br><br>
+                Make sure the .md files are in the
+                same folder as index.html.
+                <br><br>
+                If you're opening index.html directly,
+                use a local web server or GitHub Pages.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    render();
+
+    createNavigation();
+
+    setupScrollSpy();
+
+    updateSearchCount();
+
+}
+
+
+/* =====================================================
+   RENDER CONTENT
+===================================================== */
+
+function render() {
+
+    content.innerHTML = "";
+
+    allCards = [];
+
+
+    sections.forEach((sec, sectionIndex) => {
+
+        if (!sec.cards.length) {
+            return;
+        }
+
+
+        const section =
+            document.createElement("section");
+
+        section.className = "category";
+
+        section.id =
+            `category-${sectionIndex}`;
+
+
+        section.dataset.title =
+            sec.title;
+
+
+        section.innerHTML = `
+
+            <div class="category-header">
+
+                <h2>
+                    ${escapeHtml(sec.title)}
+                </h2>
+
+                <span class="category-count">
+                    ${sec.cards.length} lines
+                </span>
+
+            </div>
+
+            <div class="cards"></div>
+        `;
+
+
+        const grid =
+            section.querySelector(".cards");
+
+
+        sec.cards.forEach((cardData, cardIndex) => {
+
+            const card =
+                document.createElement("article");
+
+            card.className =
+                "card searchable";
+
+
+            const text =
+                cardData.text
+                    .join("\n")
+                    .trim();
+
+
+            card.dataset.search = (
+
+                cardData.label +
+                " " +
+                text +
+                " " +
+                sec.title
+
+            ).toLowerCase();
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${escapeHtml(cardData.label)}
+                </h3>
+
+                <p>
+                    ${escapeHtml(text)}
+                </p>
+
+                <button class="copy">
+                    Copy
+                </button>
+
+            `;
+
+
+            card.querySelector(".copy")
+                .addEventListener(
+                    "click",
+                    () => copyText(
+                        text,
+                        card.querySelector(".copy")
+                    )
+                );
+
+
+            grid.appendChild(card);
+
+            allCards.push(card);
+
+        });
+
+
+        content.appendChild(section);
+
+    });
+
+}
+
+
+/* =====================================================
+   CREATE NAVIGATION
+===================================================== */
+
+function createNavigation() {
+
+    desktopNav.innerHTML = "";
+
+    mobileNav.innerHTML = "";
+
+
+    sections.forEach((section, index) => {
+
+        if (!section.cards.length) {
+            return;
+        }
+
+
+        const id =
+            `category-${index}`;
+
+
+        /*
+         DESKTOP
+        */
+
+        const desktopButton =
+            document.createElement("button");
+
+
+        desktopButton.dataset.target =
+            id;
+
+
+        desktopButton.innerHTML = `
+
+            <span class="nav-name">
+                ${escapeHtml(section.title)}
+            </span>
+
+            <span class="nav-count">
+                ${section.cards.length}
+            </span>
+
+        `;
+
+
+        desktopButton.onclick =
+            () => scrollToCategory(id);
+
+
+        desktopNav.appendChild(
+            desktopButton
+        );
+
+
+        /*
+         MOBILE
+        */
+
+        const mobileButton =
+            document.createElement("button");
+
+
+        mobileButton.dataset.target =
+            id;
+
+
+        mobileButton.textContent =
+            section.title;
+
+
+        mobileButton.onclick =
+            () => scrollToCategory(id);
+
+
+        mobileNav.appendChild(
+            mobileButton
+        );
+
+    });
+
+
+    setActiveNavigation(
+        "category-0"
+    );
+
+}
+
+
+/* =====================================================
+   NAVIGATION SCROLL
+===================================================== */
+
+function scrollToCategory(id) {
+
+    const target =
+        document.getElementById(id);
+
+    if (!target) {
+        return;
+    }
+
+
+    const offset = 85;
+
+
+    const y =
+        target.getBoundingClientRect().top +
+        window.scrollY -
+        offset;
+
+
+    window.scrollTo({
+
+        top: y,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+/* =====================================================
+   ACTIVE NAVIGATION
+===================================================== */
+
+function setActiveNavigation(id) {
+
+    document
+        .querySelectorAll(
+            "[data-target]"
+        )
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.target === id
+            );
+
+        });
+
+}
+
+
+/* =====================================================
+   SCROLL SPY
+===================================================== */
+
+function setupScrollSpy() {
+
+    const categoryElements =
+        document.querySelectorAll(
+            ".category"
+        );
+
+
+    const observer =
+        new IntersectionObserver(
+
+            entries => {
+
+                const visible =
+                    entries
+                        .filter(
+                            entry =>
+                                entry.isIntersecting
+                        )
+                        .sort(
+                            (a, b) =>
+                                b.intersectionRatio -
+                                a.intersectionRatio
+                        );
+
+
+                if (visible.length) {
+
+                    setActiveNavigation(
+                        visible[0]
+                            .target
+                            .id
+                    );
+
+                }
+
+            },
+
+            {
+                rootMargin:
+                    "-100px 0px -60% 0px",
+
+                threshold: [
+                    0,
+                    .1,
+                    .25
+                ]
+
+            }
+
+        );
+
+
+    categoryElements.forEach(
+        section =>
+            observer.observe(section)
+    );
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function filter() {
+
+    const query =
+        search.value
+            .toLowerCase()
+            .trim();
+
+
+    let visible = 0;
+
+
+    allCards.forEach(card => {
+
+        const matches =
+            card.dataset.search
+                .includes(query);
+
+
+        card.style.display =
+            matches
+                ? ""
+                : "none";
+
+
+        if (matches) {
+            visible++;
+        }
+
+    });
+
+
+    /*
+     Hide empty categories
+    */
+
+    document
+        .querySelectorAll(".category")
+        .forEach(section => {
+
+            const hasVisible =
+                [
+                    ...section.querySelectorAll(".card")
+                ]
+                .some(
+                    card =>
+                        card.style.display !== "none"
+                );
+
+
+            section.style.display =
+                hasVisible
+                    ? ""
+                    : "none";
+
+        });
+
+
+    updateSearchCount(
+        visible,
+        query
+    );
+
+}
+
+
+/* =====================================================
+   SEARCH COUNT
+===================================================== */
+
+function updateSearchCount(
+    visible = allCards.length,
+    query = ""
+) {
+
+    if (!query) {
+
+        searchCount.textContent =
+            `${allCards.length} lines across ${sections.length} categories`;
+
+        return;
+
+    }
+
+
+    searchCount.textContent =
+        `${visible} result${visible === 1 ? "" : "s"} found`;
+
+}
+
+
+/* =====================================================
+   COPY
+===================================================== */
+
+async function copyText(
+    text,
+    button
+) {
+
+    try {
+
+        await navigator
+            .clipboard
+            .writeText(text);
+
+    }
+
+    catch {
+
+        const textarea =
+            document.createElement("textarea");
+
+        textarea.value = text;
+
+        document.body.appendChild(
+            textarea
+        );
+
+        textarea.select();
+
+        document.execCommand(
+            "copy"
+        );
+
+        textarea.remove();
+
+    }
+
+
+    /*
+     Button feedback
+    */
+
+    const original =
+        button.textContent;
+
+
+    button.textContent =
+        "✓ Copied";
+
+    button.classList.add(
+        "copied"
+    );
+
+
+    setTimeout(() => {
+
+        button.textContent =
+            original;
+
+        button.classList.remove(
+            "copied"
+        );
+
+    }, 1200);
+
+
+    /*
+     Toast
+    */
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(() => {
+
+        toast.classList.remove(
+            "show"
+        );
+
+    }, 1200);
+
+}
+
+
+/* =====================================================
+   BACK TO TOP
+===================================================== */
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        topButton.classList.toggle(
+            "show",
+            window.scrollY > 400
+        );
+
+    }
+);
+
+
+topButton.addEventListener(
+    "click",
+    () => {
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
+);
+
+
+/* =====================================================
+   KEYBOARD SHORTCUT
+
+   Press "/" to focus search
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "/" &&
+            document.activeElement !== search
+        ) {
+
+            event.preventDefault();
+
+            search.focus();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   SEARCH EVENT
+===================================================== */
+
+search.addEventListener(
+    "input",
+    filter
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+load();
+
+</script>
+
+</body>
+</html>
